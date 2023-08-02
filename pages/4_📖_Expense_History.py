@@ -39,7 +39,7 @@ df, expense_types, current_month = getData()
 #TODO add in month filter
 df = df[df['Month']==current_month]
 
-selected_expense_type = st.selectbox('Expense Type','All' + expense_types)
+selected_expense_type = st.selectbox('Expense Type',['All'] + expense_types)
 
 if selected_expense_type != 'All':
   df = df[df['Expense Type']==selected_expense_type]
