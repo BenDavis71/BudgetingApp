@@ -73,7 +73,7 @@ with st.form('expense_form'):
 
 #display current budget left
 for expense_type in budget_df['Expense Type'].tolist():
-  budgeted = budget_df[budget_df['Expense Type']==expense_type]['Budget'].reset_index(drop=True)[0]
+  budgeted = budget_df[budget_df['Expense Type']==expense_type]['Modified Budget'].reset_index(drop=True)[0]
   expected_spend = budgeted * current_day / total_days_in_month
   pace_color_start = ''
   pace_color_end = ''
