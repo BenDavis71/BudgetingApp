@@ -47,7 +47,7 @@ def getData():
 
 # get date in gsheets compatible format
 def gsheets_date(date):
-    delta = date1 - datetime(1899, 12, 30)
+    delta = date - datetime(1899, 12, 30)
     return delta.days
 
 client = getConnection()
