@@ -68,7 +68,6 @@ with st.form('expense_form'):
        }
       
     df = df.append(pd.DataFrame(dict, index=[0]))
-    st.write(df)
     expenses.append_row([dict['Date'], [dict['Date Value'], dict['Month'], dict['Expense Type'], dict['Expense'], dict['Name']])
     st.success('Expense has been submitted!')
 
