@@ -40,6 +40,7 @@ def getData():
   expenses = budget_sheet.get_worksheet(0)
   budget = budget_sheet.get_worksheet(1)
   df, budget_df = pd.DataFrame(data=expenses.get_all_records()), pd.DataFrame(data=budget.get_all_records())
+  df = df[df['Month']!='Adjustment']
   expense_types = budget_df['Expense Type'].tolist()
   return df, budget_df, expense_types, current_month, current_day, total_days_in_month
 
@@ -60,6 +61,7 @@ g = df.groupby(['Month'], sort=False)['Expense'].sum().reset_index()
 g.columns = ['Month','Expense']
 g['Over Budget'] = g['Expense'].apply(lambda x: 'Over Budget' if x > budget else 'Under Budget')
 g = g.tail(12) #only last 12 months; possibly make this a filter in the future
+st.write(g)
 
 #graph
 fig = px.bar(
