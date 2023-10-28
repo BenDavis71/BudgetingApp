@@ -72,7 +72,7 @@ fig = px.bar(
         opacity=.9
 )
 fig.add_hline(y=budget, line_width=3, line_dash="dash", line_color="#ff4b4b", opacity=.75)
-fig.update_layout(showlegend=False, xaxis=dict(type='category'))
+fig.update_layout(showlegend=False, xaxis=dict(type='date'))
 fig.update_xaxes(showgrid=False, fixedrange=True)
 fig.update_yaxes(showgrid=False, fixedrange=True)
 fig.update_traces(opacity=.9, hovertemplate='$%{y}')
