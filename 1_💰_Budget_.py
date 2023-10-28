@@ -60,6 +60,7 @@ with st.form('expense_form'):
   submitted = st.form_submit_button('Submit')
   if submitted:
     dict = {'Date': datetime.today().strftime('%-m/%-d/%Y'),
+            'Date Value': datetime.today(),
             'Month': current_month,
             'Expense Type': expense_type,
             'Expense': expense,
@@ -67,14 +68,13 @@ with st.form('expense_form'):
        }
       
     df = df.append(pd.DataFrame(dict, index=[0]))
-    expenses.append_row([dict['Date'], dict['Month'], dict['Expense Type'], dict['Expense'], dict['Name']])
+    expenses.append_row([dict['Date'], [dict['Date Value'], dict['Month'], dict['Expense Type'], dict['Expense'], dict['Name']])
     st.success('Expense has been submitted!')
 
 
 #display current budget left
 for expense_type in budget_df['Expense Type'].tolist():
-  true_budget = budget_df[budget_df['Expense Type']==expense_type]['Budget'].reset_index(drop=True)[0]
-  budgeted = budget_df[budget_df['Expense Type']==expense_type]['Modified Budget'].reset_index(drop=True)[0]
+  budgeted = budget_df[budget_df['Expense Type']==expense_type]['Budget'].reset_index(drop=True)[0]
   expected_spend = budgeted * current_day / total_days_in_month
   pace_color_start = ''
   pace_color_end = ''
@@ -107,7 +107,7 @@ for expense_type in budget_df['Expense Type'].tolist():
     on_pace_for = 0
   
         
-  st.markdown(f"""### {expense_type}: \${true_budget:.0f}<br>
+  st.markdown(f"""### {expense_type}<br>
   **:{pct_color}[\${diff:.0f} remaining]** :{pct_color}[({pct:.0f}%)]<br>
   *\${spent:.0f} spent out of \${budgeted:.0f} budgeted* 
   *{pace_color_start}({expected_diff} the \${expected_spend:.0f} expected to be spent at this point in the month){pace_color_end}*<br>
