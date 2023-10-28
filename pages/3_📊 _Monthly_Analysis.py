@@ -73,7 +73,7 @@ fig = px.bar(
 )
 fig.add_hline(y=budget, line_width=3, line_dash="dash", line_color="#ff4b4b", opacity=.75)
 fig.update_layout(showlegend=False)
-fig.update_xaxes(showgrid=False, fixedrange=True, categoryorder='array', categoryarray = g['Month'].to_list()
+fig.update_xaxes(showgrid=False, fixedrange=True, categoryorder='array', categoryarray = g['Month'].to_list())
 fig.update_yaxes(showgrid=False, fixedrange=True)
 fig.update_traces(opacity=.9, hovertemplate='$%{y}')
 st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
