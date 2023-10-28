@@ -45,6 +45,11 @@ def getData():
   expense_types = budget_df['Expense Type'].tolist()
   return df, budget_df, expenses, expense_types, current_month, current_day, total_days_in_month
 
+# get date in gsheets compatible format
+def gsheets_date(date):
+    delta = date1 - datetime(1899, 12, 30)
+    return delta.days
+
 client = getConnection()
 df, budget_df, expenses, expense_types, current_month, current_day, total_days_in_month = getData()
 
@@ -60,7 +65,7 @@ with st.form('expense_form'):
   submitted = st.form_submit_button('Submit')
   if submitted:
     dict = {'Date': datetime.today().strftime('%-m/%-d/%Y'),
-            'Date Value': datetime.today(),
+            'Date Value': gsheets_date(datetime.today()),
             'Month': current_month,
             'Expense Type': expense_type,
             'Expense': expense,
