@@ -60,6 +60,7 @@ with st.form('expense_form'):
   submitted = st.form_submit_button('Submit')
   if submitted:
     dict = {'Date': datetime.today().strftime('%-m/%-d/%Y'),
+            'Date Value': datetime.today(),
             'Month': current_month,
             'Expense Type': expense_type,
             'Expense': expense,
