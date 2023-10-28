@@ -45,13 +45,13 @@ def getData():
   expense_types = budget_df['Expense Type'].tolist()
   return df, budget_df, expenses, expense_types, current_month, current_day, total_days_in_month
 
+client = getConnection()
+df, budget_df, expenses, expense_types, current_month, current_day, total_days_in_month = getData()
+
 # get date in gsheets compatible format
 def gsheets_date(date):
     delta = date - datetime(1899, 12, 30)
     return delta.days
-
-client = getConnection()
-df, budget_df, expenses, expense_types, current_month, current_day, total_days_in_month = getData()
 
 
 #add new expense
@@ -73,13 +73,14 @@ with st.form('expense_form'):
        }
       
     df = df.append(pd.DataFrame(dict, index=[0]))
-    expenses.append_row([dict['Date'], dict['Date Value'], dict['Month'], dict['Expense Type'], dict['Expense'], dict['Name']])
+    expenses.append_row([dict['Date'], dict['Month'], dict['Expense Type'], dict['Expense'], dict['Name']])
     st.success('Expense has been submitted!')
 
 
 #display current budget left
 for expense_type in budget_df['Expense Type'].tolist():
-  budgeted = budget_df[budget_df['Expense Type']==expense_type]['Budget'].reset_index(drop=True)[0]
+  true_budget = budget_df[budget_df['Expense Type']==expense_type]['Budget'].reset_index(drop=True)[0]
+  budgeted = budget_df[budget_df['Expense Type']==expense_type]['Modified Budget'].reset_index(drop=True)[0]
   expected_spend = budgeted * current_day / total_days_in_month
   pace_color_start = ''
   pace_color_end = ''
@@ -112,7 +113,7 @@ for expense_type in budget_df['Expense Type'].tolist():
     on_pace_for = 0
   
         
-  st.markdown(f"""### {expense_type}<br>
+  st.markdown(f"""### {expense_type}: \${true_budget:.0f}<br>
   **:{pct_color}[\${diff:.0f} remaining]** :{pct_color}[({pct:.0f}%)]<br>
   *\${spent:.0f} spent out of \${budgeted:.0f} budgeted* 
   *{pace_color_start}({expected_diff} the \${expected_spend:.0f} expected to be spent at this point in the month){pace_color_end}*<br>
